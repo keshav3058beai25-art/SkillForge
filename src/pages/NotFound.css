@@ -1,0 +1,69 @@
+/* ==========================================================================
+   NotFound Page Styles (CHO Evaluation 1 Level)
+   ========================================================================== */
+
+.notfound-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 3rem 1.5rem;
+}
+
+.notfound-card {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-xl, 16px);
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: var(--shadow-md, 0 10px 15px -3px rgba(0, 0, 0, 0.06));
+}
+
+.notfound-emoji {
+  font-size: 3.5rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.notfound-code {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--primary-color, #4f46e5);
+  margin-bottom: 0.5rem;
+}
+
+.notfound-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+  margin-bottom: 0.75rem;
+}
+
+.notfound-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary, #64748b);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.btn-home-return {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color, #4f46e5);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md, 8px);
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-home-return:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+}

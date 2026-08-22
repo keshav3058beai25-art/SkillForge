@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "quote": "The expert in anything was once a beginner.",
+    "author": "Helen Hayes",
+    "tip": "Focus on understanding core fundamentals like the Box Model and JavaScript execution before moving to complex libraries."
+  },
+  {
+    "id": 2,
+    "quote": "First, solve the problem. Then, write the code.",
+    "author": "John Johnson",
+    "tip": "Break down large React components into smaller, reusable UI pieces."
+  },
+  {
+    "id": 3,
+    "quote": "Simplicity is the soul of efficiency.",
+    "author": "Austin Freeman",
+    "tip": "Always keep your state minimal and derive values using useMemo or standard JavaScript methods."
+  },
+  {
+    "id": 4,
+    "quote": "Code is like humor. When you have to explain it, it is bad.",
+    "author": "Cory House",
+    "tip": "Write self-describing variable names and keep function responsibilities single and clear."
+  },
+  {
+    "id": 5,
+    "quote": "Continuous learning is the minimum requirement for success in any field.",
+    "author": "Brian Tracy",
+    "tip": "Practice building small projects regularly to reinforce your React hooks knowledge."
+  }
+]

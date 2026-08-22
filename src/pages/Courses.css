@@ -1,0 +1,200 @@
+/* ==========================================================================
+   Courses Page Styles (CHO Evaluation 1 Level)
+   ========================================================================== */
+
+.courses-page {
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.page-tag {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--primary-color, #4f46e5);
+  background-color: var(--primary-light, #f5f3ff);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.page-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary, #64748b);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Filter and Search Controls */
+.courses-controls {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.04));
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 2.75rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  background-color: #f8fafc;
+  color: var(--text-primary, #0f172a);
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--primary-color, #4f46e5);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-clear-search:hover {
+  color: #475569;
+}
+
+/* Category Filter Pills */
+.category-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-pill:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.filter-pill-active {
+  background-color: var(--primary-color, #4f46e5);
+  border-color: var(--primary-color, #4f46e5);
+  color: #ffffff;
+}
+
+.filter-pill-active:hover {
+  background-color: #4338ca;
+  border-color: #4338ca;
+  color: #ffffff;
+}
+
+/* Results Count Bar */
+.results-count-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #64748b);
+  padding: 0 0.25rem;
+}
+
+.active-filter-indicator {
+  color: var(--primary-color, #4f46e5);
+}
+
+/* Empty Results Box */
+.empty-results-box {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px dashed var(--border-color, #cbd5e1);
+  border-radius: var(--radius-lg, 12px);
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+  max-width: 480px;
+  margin: 2rem auto;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.empty-results-box h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary, #0f172a);
+  margin-bottom: 0.5rem;
+}
+
+.empty-results-box p {
+  font-size: 0.9rem;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.btn-reset-filters {
+  background-color: var(--primary-color, #4f46e5);
+  color: #ffffff;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-reset-filters:hover {
+  background-color: #4338ca;
+}
