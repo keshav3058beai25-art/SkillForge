@@ -60,6 +60,14 @@ function Navbar() {
           </NavLink>
 
           <NavLink
+            to="/quiz"
+            className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            onClick={handleLinkClick}
+          >
+            🎯 MCQs & Quizzes
+          </NavLink>
+
+          <NavLink
             to="/progress"
             className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
             onClick={handleLinkClick}

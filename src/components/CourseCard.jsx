@@ -82,7 +82,10 @@ function CourseCard({ course, completedLessons = [] }) {
       {/* Card Action Link */}
       <div className="card-footer-action">
         <Link to={`/courses/${id}`} className="btn-view-course">
-          {percentage === 100 ? 'Review Lessons' : 'Start / Continue &rarr;'}
+          {percentage === 100 ? 'Review Lessons' : 'Syllabus &rarr;'}
+        </Link>
+        <Link to={`/quiz/${id}`} className="btn-card-quiz" title="Practice Subject MCQs">
+          🎯 MCQs
         </Link>
       </div>
     </article>

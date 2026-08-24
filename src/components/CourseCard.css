@@ -130,13 +130,15 @@
 
 .card-footer-action {
   margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
 }
 
 .btn-view-course {
   display: block;
   text-align: center;
-  width: 100%;
-  padding: 0.65rem 1rem;
+  padding: 0.65rem 0.85rem;
   background-color: var(--primary-color, #4f46e5);
   color: #ffffff;
   font-size: 0.875rem;
@@ -144,8 +146,31 @@
   border-radius: var(--radius-md, 8px);
   text-decoration: none;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-view-course:hover {
   background-color: var(--primary-hover, #4338ca);
+}
+
+.btn-card-quiz {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-md, 8px);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-card-quiz:hover {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #059669;
 }

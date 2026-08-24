@@ -44,8 +44,8 @@ function Home({ completedLessons = [] }) {
               <Link to="/courses" className="btn-primary">
                 Explore Courses &rarr;
               </Link>
-              <Link to="/progress" className="btn-secondary">
-                View My Progress
+              <Link to="/quiz" className="btn-secondary">
+                🎯 Practice Subject MCQs
               </Link>
             </div>
           </div>
@@ -57,8 +57,8 @@ function Home({ completedLessons = [] }) {
               <span className="stat-label">Structured Courses</span>
             </div>
             <div className="stat-card">
-              <span className="stat-number">{totalLessons}</span>
-              <span className="stat-label">Total Lessons</span>
+              <span className="stat-number">28</span>
+              <span className="stat-label">7 MCQs per Subject</span>
             </div>
             <div className="stat-card stat-card-highlight">
               <span className="stat-number">{totalCompleted}</span>
@@ -87,6 +87,14 @@ function Home({ completedLessons = [] }) {
               <h3 className="feature-title">Structured Curriculum</h3>
               <p className="feature-desc">
                 Step-by-step topic roadmaps covering HTML5, CSS3, JavaScript ES6+, React, SQL, and Data Structures.
+              </p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🎯</div>
+              <h3 className="feature-title">Interactive Subject MCQs</h3>
+              <p className="feature-desc">
+                10-15 topic questions per subject with real-time scoring and comprehensive answer keys with explanations.
               </p>
             </div>
 

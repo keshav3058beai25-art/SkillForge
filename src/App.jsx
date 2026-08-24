@@ -13,6 +13,7 @@ import Courses from './pages/Courses';
 import CourseDetails from './pages/CourseDetails';
 import Progress from './pages/Progress';
 import Notes from './pages/Notes';
+import QuizPage from './pages/QuizPage';
 import NotFound from './pages/NotFound';
 
 /**
@@ -35,8 +36,8 @@ function ScrollToTop() {
  * 
  * Concepts Demonstrated:
  * 1. React Router Single Page Application (SPA) routing with <Routes> & <Route>
- * 2. Lifting State Up: Global progress tracking state shared across Home, Courses, CourseDetails & Progress
- * 3. useState Hook: Storing the array of completed lesson IDs
+ * 2. Lifting State Up: Global progress tracking state shared across Home, Courses, CourseDetails, Quiz & Progress
+ * 3. useState Hook: Storing the array of completed lesson IDs and quiz scores
  * 4. useEffect Hook & localStorage: Persisting user progress across browser reloads
  * 5. JSON.parse & JSON.stringify for data serialization
  * 6. Component Composition: Wrapping dynamic pages inside consistent Navbar and Footer
@@ -57,7 +58,21 @@ function App() {
     return [101, 102, 201];
   });
 
-  // 2. Save completedLessons to localStorage whenever state updates
+  // 2. Initialize quizScores state from browser's localStorage
+  const [quizScores, setQuizScores] = useState(() => {
+    const savedScores = localStorage.getItem('skillforge_quiz_scores');
+    if (savedScores) {
+      try {
+        return JSON.parse(savedScores);
+      } catch (error) {
+        console.error('Error parsing quiz scores from localStorage:', error);
+        return {};
+      }
+    }
+    return {};
+  });
+
+  // 3. Save completedLessons to localStorage whenever state updates
   useEffect(() => {
     localStorage.setItem(
       'skillforge_completed_lessons',
@@ -76,11 +91,32 @@ function App() {
     }
   };
 
+  // Handler for when a quiz is completed
+  const handleQuizComplete = (updatedScores) => {
+    setQuizScores(updatedScores);
+  };
+
+  // Handler to mark all lessons of a course completed when the 7 MCQs are passed
+  const handleCompleteCourseLessons = (courseId) => {
+    const numericId = Number(courseId);
+    const course = coursesData.find((c) => c.id === numericId);
+    if (!course) return;
+
+    const courseLessonIds = course.lessons.map((l) => l.id);
+    setCompletedLessons((prev) => {
+      const updated = Array.from(new Set([...prev, ...courseLessonIds]));
+      localStorage.setItem('skillforge_completed_lessons', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   // Handler to reset all progress with confirmation dialog
   const handleResetProgress = () => {
-    const isConfirmed = window.confirm('Are you sure you want to reset all completed lessons?');
+    const isConfirmed = window.confirm('Are you sure you want to reset all completed lessons and quiz scores?');
     if (isConfirmed) {
       setCompletedLessons([]);
+      setQuizScores({});
+      localStorage.removeItem('skillforge_quiz_scores');
     }
   };
 
@@ -113,25 +149,47 @@ function App() {
                 <CourseDetails
                   completedLessons={completedLessons}
                   onToggleLesson={handleToggleLesson}
+                  onCompleteCourseLessons={handleCompleteCourseLessons}
                 />
               }
             />
 
-            {/* 4. Progress Dashboard */}
+            {/* 4. Interactive Subject Quizzes & MCQs (7 Questions per track) */}
+            <Route
+              path="/quiz"
+              element={
+                <QuizPage
+                  onQuizComplete={handleQuizComplete}
+                  onCompleteCourseLessons={handleCompleteCourseLessons}
+                />
+              }
+            />
+            <Route
+              path="/quiz/:id"
+              element={
+                <QuizPage
+                  onQuizComplete={handleQuizComplete}
+                  onCompleteCourseLessons={handleCompleteCourseLessons}
+                />
+              }
+            />
+
+            {/* 5. Progress Dashboard */}
             <Route
               path="/progress"
               element={
                 <Progress
                   completedLessons={completedLessons}
+                  quizScores={quizScores}
                   onResetProgress={handleResetProgress}
                 />
               }
             />
 
-            {/* 5. Study Notes Notebook */}
+            {/* 6. Study Notes Notebook */}
             <Route path="/notes" element={<Notes />} />
 
-            {/* 6. 404 Catch-All Page */}
+            {/* 7. 404 Catch-All Page */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
