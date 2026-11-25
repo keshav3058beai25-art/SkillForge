@@ -2,12 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { coursesData, getCourseById } from '../data/coursesData';
 import { mcqDatabase, getMCQsByCourseId } from '../data/mcqData';
+import { useApp } from '../context/AppContext';
 import ProgressBar from '../components/ProgressBar';
 import './QuizPage.css';
 
 /**
  * QuizPage Component
- * 
+ *
  * Interactive Multiple-Choice Testing & Assessment System:
  * 1. 10-15 topic-specific questions per subject track
  * 2. Real-time question navigation palette with answered/flagged indicators
@@ -16,8 +17,11 @@ import './QuizPage.css';
  * 5. Full Post-Quiz Answer Key: Displays all correct answers highlighted in green,
  *    user choices, and in-depth conceptual explanations.
  * 6. LocalStorage persistence for quiz scores.
+ * 7. Uses useApp() context to update global quiz scores and course progress
  */
-function QuizPage({ onQuizComplete, onCompleteCourseLessons }) {
+function QuizPage() {
+  // Read handlers from global context (no props needed)
+  const { handleQuizComplete, handleCompleteCourseLessons } = useApp();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -164,13 +168,13 @@ function QuizPage({ onQuizComplete, onCompleteCourseLessons }) {
       };
       localStorage.setItem('skillforge_quiz_scores', JSON.stringify(updatedScores));
 
-      if (onQuizComplete) {
-        onQuizComplete(updatedScores);
+      if (handleQuizComplete) {
+        handleQuizComplete(updatedScores);
       }
 
       // Automatically complete all topics for this subject upon taking the 7 MCQs!
-      if (onCompleteCourseLessons) {
-        onCompleteCourseLessons(selectedCourseId);
+      if (handleCompleteCourseLessons) {
+        handleCompleteCourseLessons(selectedCourseId);
       }
     } catch (err) {
       console.error('Error saving quiz score to localStorage:', err);

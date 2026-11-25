@@ -2,20 +2,22 @@ import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCourseById } from '../data/coursesData';
 import { getMCQsByCourseId } from '../data/mcqData';
+import { useApp } from '../context/AppContext';
 import ProgressBar from '../components/ProgressBar';
 import './CourseDetails.css';
 
 /**
- * CourseDetails Page Component (CHO Evaluation 1 Level)
+ * CourseDetails Page Component
  * Demonstrates:
  * 1. React Router useParams() for dynamic route parameter extraction (/courses/:id)
  * 2. React Router useNavigate() for programmatic route navigation
- * 3. Conditional rendering if the course ID is invalid
- * 4. State updates & lifting state up (toggling lesson completion)
+ * 3. useContext via useApp() to read completedLessons and toggle handler from global state
+ * 4. Conditional rendering if the course ID is invalid
  * 5. Dynamic progress calculation derived from completed lessons
  * 6. Integration with Subject MCQs and test assessment system
  */
-function CourseDetails({ completedLessons = [], onToggleLesson }) {
+function CourseDetails() {
+  const { completedLessons, handleToggleLesson } = useApp();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -174,7 +176,7 @@ function CourseDetails({ completedLessons = [], onToggleLesson }) {
                     <input
                       type="checkbox"
                       checked={isCompleted}
-                      onChange={() => onToggleLesson(lesson.id)}
+                      onChange={() => handleToggleLesson(lesson.id)}
                       className="lesson-checkbox"
                     />
                     <span className="custom-checkbox"></span>

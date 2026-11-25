@@ -1,0 +1,64 @@
+/* ==========================================================================
+   FormInput Reusable Component Styles
+   ========================================================================== */
+
+.form-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.form-input-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+}
+
+.required-star {
+  color: var(--accent-danger, #dc2626);
+}
+
+.form-input-field {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.9rem;
+  color: var(--text-primary, #0f172a);
+  background-color: #ffffff;
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.form-input-field:focus {
+  border-color: var(--primary-color, #4f46e5);
+  box-shadow: 0 0 0 3px var(--primary-glow, rgba(79, 70, 229, 0.15));
+}
+
+.form-textarea-field {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.form-select-field {
+  cursor: pointer;
+  appearance: auto;
+}
+
+/* Error state */
+.form-input-group.has-error .form-input-field {
+  border-color: var(--accent-danger, #dc2626);
+}
+
+.form-input-group.has-error .form-input-field:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.form-input-error {
+  font-size: 0.82rem;
+  color: var(--accent-danger, #dc2626);
+  font-weight: 500;
+}

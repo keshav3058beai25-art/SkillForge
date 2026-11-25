@@ -2,18 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { coursesData } from '../data/coursesData';
 import { mcqDatabase } from '../data/mcqData';
+import { useApp } from '../context/AppContext';
 import ProgressBar from '../components/ProgressBar';
 import './Progress.css';
 
 /**
- * Progress Page Component (CHO Evaluation 1 Level)
+ * Progress Page Component
  * Demonstrates:
- * 1. Array methods (reduce, filter, map) for analytical calculations
- * 2. Lifting state up / receiving global progress & quiz props
+ * 1. useContext via useApp() to read completedLessons, quizScores, enrolledCourses, and handlers
+ * 2. Array methods (reduce, filter, map) for analytical calculations
  * 3. Conditional rendering of progress milestones, quiz badges and achievements
  * 4. Confirmation-gated state reset handler
+ * 5. My Learning section showing enrolled courses with Continue Learning
  */
-function Progress({ completedLessons = [], quizScores = {}, onResetProgress }) {
+function Progress() {
+  // Read all needed values from global context (no props needed)
+  const { completedLessons, quizScores, enrolledCourses, handleResetProgress } = useApp();
   // Total lessons across all courses
   const totalLessons = coursesData.reduce(
     (acc, course) => acc + course.lessons.length,
@@ -38,6 +42,19 @@ function Progress({ completedLessons = [], quizScores = {}, onResetProgress }) {
     : 0;
 
   const totalMasteredQuizzes = quizEntries.filter((q) => q.percentage >= 85).length;
+
+  // Enrolled courses data for My Learning section
+  const enrolledCoursesData = coursesData.filter((c) =>
+    enrolledCourses.includes(c.id)
+  );
+
+  // Find the next incomplete lesson for a given course
+  const getNextLesson = (course) => {
+    const nextLesson = course.lessons.find(
+      (lesson) => !completedLessons.includes(lesson.id)
+    );
+    return nextLesson || null;
+  };
 
   return (
     <div className="progress-page page-container">
@@ -89,6 +106,89 @@ function Progress({ completedLessons = [], quizScores = {}, onResetProgress }) {
               : 'No quizzes taken yet — try a test!'}
           </p>
         </div>
+      </section>
+
+      {/* ============================================================
+          MY LEARNING SECTION (Enrolled Courses with Continue Learning)
+          ============================================================ */}
+      <section className="my-learning-section">
+        <div className="section-header-flex">
+          <div>
+            <h3 className="section-subheading">📚 My Learning</h3>
+            <p className="section-desc">
+              Your enrolled courses with progress tracking. Pick up where you left off.
+            </p>
+          </div>
+          <span className="enrolled-count-badge">
+            {enrolledCoursesData.length} Enrolled
+          </span>
+        </div>
+
+        {enrolledCoursesData.length > 0 ? (
+          <div className="my-learning-grid">
+            {enrolledCoursesData.map((course) => {
+              const courseLessons = course.lessons;
+              const completedInCourse = courseLessons.filter((l) =>
+                completedLessons.includes(l.id)
+              ).length;
+              const percentage = courseLessons.length > 0
+                ? Math.round((completedInCourse / courseLessons.length) * 100)
+                : 0;
+              const nextLesson = getNextLesson(course);
+              const quizData = quizScores[course.id];
+
+              return (
+                <div key={course.id} className="my-learning-card">
+                  <div className="my-learning-card-header">
+                    <span className="course-cat">{course.category}</span>
+                    {percentage === 100 ? (
+                      <span className="status-badge status-completed">Completed ✅</span>
+                    ) : (
+                      <span className="my-learning-progress-text">{percentage}%</span>
+                    )}
+                  </div>
+
+                  <h4 className="my-learning-title">{course.title}</h4>
+
+                  <div className="my-learning-stats-row">
+                    <span>{completedInCourse} / {courseLessons.length} lessons</span>
+                    {quizData && (
+                      <span className="my-learning-quiz-score">
+                        Quiz: {quizData.percentage}%
+                      </span>
+                    )}
+                  </div>
+
+                  <ProgressBar value={percentage} showLabel={false} height="6px" />
+
+                  {/* Next Lesson Info */}
+                  {nextLesson && (
+                    <div className="my-learning-next">
+                      <span className="next-label">Next up:</span>
+                      <span className="next-title">{nextLesson.title}</span>
+                    </div>
+                  )}
+
+                  {/* Continue Learning Button */}
+                  <Link
+                    to={`/courses/${course.id}`}
+                    className="btn-continue-learning"
+                  >
+                    {percentage === 100 ? '📖 Review Course' : '▶ Continue Learning'}
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="empty-learning-box">
+            <span className="empty-notes-icon">📋</span>
+            <h3>No courses enrolled yet</h3>
+            <p>
+              Visit the <Link to="/courses">Courses page</Link> to enroll in a course and start learning.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Milestone Badges Section */}
@@ -194,7 +294,7 @@ function Progress({ completedLessons = [], quizScores = {}, onResetProgress }) {
           {(completedCount > 0 || totalQuizzesTaken > 0) && (
             <button
               className="btn-reset-progress"
-              onClick={onResetProgress}
+              onClick={handleResetProgress}
               title="Reset all tracked lessons and quiz scores"
               type="button"
             >
@@ -235,7 +335,7 @@ function Progress({ completedLessons = [], quizScores = {}, onResetProgress }) {
                     to={`/courses/${course.id}`}
                     className="btn-continue-course"
                   >
-                    {percentage === 100 ? 'Review Course' : 'Continue &rarr;'}
+                    {percentage === 100 ? 'Review Course' : 'Continue →'}
                   </Link>
                 </div>
               </div>
@@ -248,3 +348,4 @@ function Progress({ completedLessons = [], quizScores = {}, onResetProgress }) {
 }
 
 export default Progress;
+ 

@@ -1,19 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getFeaturedCourses, coursesData } from '../data/coursesData';
+import { useApp } from '../context/AppContext';
 import CourseCard from '../components/CourseCard';
 import QuoteCard from '../components/QuoteCard';
+import ProgressBar from '../components/ProgressBar';
 import './Home.css';
 
 /**
- * Home Page Component (CHO Evaluation 1 Level)
+ * Home Page Component (Enhanced for Evaluation 2)
  * Demonstrates:
  * 1. Semantic HTML5 sections (<header>, <section>, <article>)
- * 2. Props passing & component composition (CourseCard, QuoteCard)
- * 3. Array mapping with map() to render lists of cards
- * 4. Derived stats calculation (total courses, total lessons)
+ * 2. useContext via useApp() hook to read global state (no props needed)
+ * 3. Component composition (CourseCard, QuoteCard, ProgressBar)
+ * 4. Array mapping with map() to render lists of cards
+ * 5. Derived stats calculation (total courses, total lessons)
+ * 6. Learning Progress Summary — shows overall completion and quiz stats
+ * 7. Quick Navigation Links — easy access to all major pages
  */
-function Home({ completedLessons = [] }) {
+function Home() {
+  // Read completedLessons and quizScores from global context
+  const { completedLessons, quizScores, notesCount } = useApp();
+
   // Get featured courses list
   const featuredCourses = getFeaturedCourses();
 
@@ -24,6 +32,17 @@ function Home({ completedLessons = [] }) {
     0
   );
   const totalCompleted = completedLessons.length;
+  const overallProgress =
+    totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
+
+  // Quiz statistics
+  const quizEntries = Object.values(quizScores);
+  const quizzesTaken = quizEntries.length;
+
+  // Completed courses count
+  const completedCoursesCount = coursesData.filter((course) =>
+    course.lessons.every((lesson) => completedLessons.includes(lesson.id))
+  ).length;
 
   return (
     <div className="home-page">
@@ -72,7 +91,113 @@ function Home({ completedLessons = [] }) {
         {/* 2. Daily Motivation & Async Fetch Card */}
         <QuoteCard />
 
-        {/* 3. Platform Key Highlights */}
+        {/* 3. Learning Progress Summary (New for Eval 2) */}
+        <section className="home-progress-section">
+          <div className="section-header">
+            <h2 className="section-title">📈 Your Learning Progress</h2>
+            <p className="section-subtitle">
+              A quick snapshot of how far you've come across all courses.
+            </p>
+          </div>
+
+          <div className="home-progress-grid">
+            {/* Overall Progress Card */}
+            <div className="home-progress-card home-progress-main">
+              <div className="home-progress-header">
+                <span className="home-progress-label">Overall Completion</span>
+                <span className="home-progress-value">{overallProgress}%</span>
+              </div>
+              <ProgressBar value={overallProgress} showLabel={false} height="10px" />
+              <p className="home-progress-detail">
+                {totalCompleted} of {totalLessons} lessons completed
+              </p>
+            </div>
+
+            {/* Mini Stat Cards */}
+            <div className="home-progress-card home-mini-stat">
+              <span className="home-mini-icon">✅</span>
+              <div>
+                <span className="home-mini-value">{completedCoursesCount}/{totalCourses}</span>
+                <span className="home-mini-label">Courses Done</span>
+              </div>
+            </div>
+
+            <div className="home-progress-card home-mini-stat">
+              <span className="home-mini-icon">🎯</span>
+              <div>
+                <span className="home-mini-value">{quizzesTaken}/{totalCourses}</span>
+                <span className="home-mini-label">Quizzes Taken</span>
+              </div>
+            </div>
+
+            <div className="home-progress-card home-mini-stat">
+              <span className="home-mini-icon">📝</span>
+              <div>
+                <span className="home-mini-value">{notesCount}</span>
+                <span className="home-mini-label">Study Notes</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="home-progress-actions">
+            <Link to="/progress" className="home-progress-link">
+              View Detailed Progress →
+            </Link>
+            <Link to="/dashboard" className="home-progress-link home-progress-link-alt">
+              Open Dashboard →
+            </Link>
+          </div>
+        </section>
+
+        {/* 4. Quick Navigation Links (New for Eval 2) */}
+        <section className="home-quick-nav">
+          <div className="section-header">
+            <h2 className="section-title">🧭 Explore SkillForge</h2>
+            <p className="section-subtitle">
+              Jump to any section of the platform with one click.
+            </p>
+          </div>
+
+          <div className="home-nav-grid">
+            <Link to="/courses" className="home-nav-card">
+              <span className="home-nav-icon">📚</span>
+              <h3 className="home-nav-title">Courses</h3>
+              <p className="home-nav-desc">Browse all {totalCourses} structured courses with lesson roadmaps.</p>
+            </Link>
+
+            <Link to="/quiz" className="home-nav-card">
+              <span className="home-nav-icon">🎯</span>
+              <h3 className="home-nav-title">MCQs & Quizzes</h3>
+              <p className="home-nav-desc">Test your knowledge with subject-specific multiple choice questions.</p>
+            </Link>
+
+            <Link to="/progress" className="home-nav-card">
+              <span className="home-nav-icon">📈</span>
+              <h3 className="home-nav-title">Progress</h3>
+              <p className="home-nav-desc">Track lesson completions, quiz scores, and milestones.</p>
+            </Link>
+
+            <Link to="/notes" className="home-nav-card">
+              <span className="home-nav-icon">📝</span>
+              <h3 className="home-nav-title">Notes</h3>
+              <p className="home-nav-desc">Save study notes and key takeaways per course.</p>
+            </Link>
+
+            <Link to="/dashboard" className="home-nav-card">
+              <span className="home-nav-icon">📊</span>
+              <h3 className="home-nav-title">Dashboard</h3>
+              <p className="home-nav-desc">See your full learning overview with stats and breakdown tables.</p>
+            </Link>
+
+            <Link to="/portfolio" className="home-nav-card">
+              <span className="home-nav-icon">👤</span>
+              <h3 className="home-nav-title">Portfolio</h3>
+              <p className="home-nav-desc">View the student portfolio page built as a mini-project.</p>
+            </Link>
+          </div>
+        </section>
+
+        {/* 5. Platform Key Highlights */}
         <section className="features-section">
           <div className="section-header">
             <h2 className="section-title">Why SkillForge?</h2>
@@ -116,7 +241,7 @@ function Home({ completedLessons = [] }) {
           </div>
         </section>
 
-        {/* 4. Featured Courses Section */}
+        {/* 6. Featured Courses Section */}
         <section className="featured-section">
           <div className="section-header-flex">
             <div>

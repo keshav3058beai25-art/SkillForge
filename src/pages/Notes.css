@@ -205,8 +205,25 @@
 .note-card-footer {
   display: flex;
   justify-content: flex-end;
+  gap: 0.5rem;
   border-top: 1px solid #f1f5f9;
   padding-top: 0.75rem;
+}
+
+.btn-edit-note {
+  background: none;
+  border: none;
+  color: var(--primary-color, #4f46e5);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-edit-note:hover {
+  background-color: var(--primary-light, #eef2ff);
 }
 
 .btn-delete-note {
@@ -223,6 +240,36 @@
 
 .btn-delete-note:hover {
   background-color: #fee2e2;
+}
+
+/* Note card editing highlight */
+.note-card-editing {
+  border-color: var(--primary-color, #4f46e5);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+/* Form action buttons row */
+.note-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-cancel-edit {
+  background: none;
+  border: 1px solid var(--border-color, #e2e8f0);
+  color: var(--text-secondary, #64748b);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-cancel-edit:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
 }
 
 /* Empty Notes Box */

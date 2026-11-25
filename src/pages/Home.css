@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Home Page Styles (CHO Evaluation 1 Level)
+   Home Page Styles (Enhanced for Evaluation 2)
    ========================================================================== */
 
 .home-page {
@@ -144,6 +144,168 @@
   letter-spacing: 0.05em;
 }
 
+/* ==========================================================================
+   Learning Progress Summary Section (Eval 2)
+   ========================================================================== */
+.home-progress-section {
+  padding: 2.5rem 0 1rem;
+}
+
+.home-progress-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.home-progress-card {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 1.5rem;
+}
+
+.home-progress-main {
+  grid-column: span 1;
+}
+
+.home-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.home-progress-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+}
+
+.home-progress-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color, #4f46e5);
+}
+
+.home-progress-detail {
+  font-size: 0.8125rem;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 0.5rem;
+}
+
+/* Mini Stat Cards */
+.home-mini-stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.home-mini-icon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+}
+
+.home-mini-stat > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.home-mini-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+}
+
+.home-mini-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary, #64748b);
+}
+
+/* Progress Action Links */
+.home-progress-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.home-progress-link {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-color, #4f46e5);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md, 8px);
+  background-color: var(--primary-light, #eef2ff);
+  transition: background-color 0.2s ease;
+}
+
+.home-progress-link:hover {
+  background-color: #e0e7ff;
+}
+
+.home-progress-link-alt {
+  background-color: transparent;
+  border: 1px solid var(--border-color, #e2e8f0);
+  color: var(--text-secondary, #64748b);
+}
+
+.home-progress-link-alt:hover {
+  background-color: var(--bg-body, #f8fafc);
+  color: var(--text-primary, #0f172a);
+}
+
+/* ==========================================================================
+   Quick Navigation Links Section (Eval 2)
+   ========================================================================== */
+.home-quick-nav {
+  padding: 2rem 0 1rem;
+}
+
+.home-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.home-nav-card {
+  background-color: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 1.75rem 1.5rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.home-nav-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md, 0 10px 15px -3px rgba(0, 0, 0, 0.06));
+  border-color: var(--primary-color, #4f46e5);
+}
+
+.home-nav-icon {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.home-nav-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary, #0f172a);
+}
+
+.home-nav-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #64748b);
+  line-height: 1.5;
+}
+
 /* Features Section */
 .features-section {
   padding: 3rem 0 1rem;
@@ -243,6 +405,10 @@
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .home-progress-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 992px) {
@@ -252,6 +418,10 @@
   }
 
   .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-nav-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -270,9 +440,26 @@
     grid-template-columns: 1fr;
   }
 
+  .home-progress-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
   .section-header-flex {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
+
+  .home-progress-actions {
+    flex-direction: column;
+  }
+
+  .home-progress-link {
+    text-align: center;
+  }
 }
+

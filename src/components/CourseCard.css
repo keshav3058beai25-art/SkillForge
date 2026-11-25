@@ -174,3 +174,44 @@
   color: #ffffff;
   border-color: #059669;
 }
+
+/* Enroll Button (shown before enrollment) */
+.btn-enroll-course {
+  display: block;
+  text-align: center;
+  padding: 0.65rem 0.85rem;
+  background-color: var(--accent-success, #16a34a);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md, 8px);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-enroll-course:hover {
+  background-color: #15803d;
+}
+
+.btn-view-course-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-md, 8px);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-view-course-outline:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}

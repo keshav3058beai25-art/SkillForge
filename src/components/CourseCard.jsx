@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useApp } from '../context/AppContext';
 import ProgressBar from './ProgressBar';
 import './CourseCard.css';
 
@@ -14,8 +15,13 @@ import './CourseCard.css';
  * - Array filter() and includes() methods for progress calculation
  * - Conditional rendering for completed status badge
  * - Component composition (ProgressBar child component)
+ * - useContext via useApp() for enrollment state (global state)
+ * - Event handling for Enroll button (updates global context)
  */
 function CourseCard({ course, completedLessons = [] }) {
+  // Read enrollment state from global context
+  const { enrollCourse, isCourseEnrolled } = useApp();
+
   // Destructure properties from the course prop
   const {
     id,
@@ -28,6 +34,8 @@ function CourseCard({ course, completedLessons = [] }) {
     lessons = []
   } = course;
 
+  const isEnrolled = isCourseEnrolled(id);
+
   // Calculate how many lessons in this course have been completed by the student
   const completedInCourse = lessons.filter((lesson) =>
     completedLessons.includes(lesson.id)
@@ -38,6 +46,11 @@ function CourseCard({ course, completedLessons = [] }) {
     totalLessons > 0 ? Math.round((completedInCourse / totalLessons) * 100) : 0;
 
   const isFullyCompleted = totalLessons > 0 && completedInCourse === totalLessons;
+
+  // Handle enroll button click
+  const handleEnroll = () => {
+    enrollCourse(id);
+  };
 
   return (
     <article className="course-card">
@@ -69,24 +82,43 @@ function CourseCard({ course, completedLessons = [] }) {
         </div>
       </div>
 
-      {/* Progress Section */}
-      <div className="card-progress-section">
-        <div className="progress-info-row">
-          <span className="lesson-count-text">
-            {completedInCourse} of {totalLessons} lessons done
-          </span>
+      {/* Progress Section (shown only when enrolled) */}
+      {isEnrolled && (
+        <div className="card-progress-section">
+          <div className="progress-info-row">
+            <span className="lesson-count-text">
+              {completedInCourse} of {totalLessons} lessons done
+            </span>
+          </div>
+          <ProgressBar value={percentage} showLabel={true} />
         </div>
-        <ProgressBar value={percentage} showLabel={true} />
-      </div>
+      )}
 
-      {/* Card Action Link */}
+      {/* Card Action Buttons */}
       <div className="card-footer-action">
-        <Link to={`/courses/${id}`} className="btn-view-course">
-          {percentage === 100 ? 'Review Lessons' : 'Syllabus &rarr;'}
-        </Link>
-        <Link to={`/quiz/${id}`} className="btn-card-quiz" title="Practice Subject MCQs">
-          🎯 MCQs
-        </Link>
+        {isEnrolled ? (
+          <>
+            <Link to={`/courses/${id}`} className="btn-view-course">
+              {percentage === 100 ? 'Review Lessons' : 'Syllabus →'}
+            </Link>
+            <Link to={`/quiz/${id}`} className="btn-card-quiz" title="Practice Subject MCQs">
+              🎯 MCQs
+            </Link>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="btn-enroll-course"
+              onClick={handleEnroll}
+            >
+              📋 Enroll Now
+            </button>
+            <Link to={`/courses/${id}`} className="btn-view-course-outline">
+              View Syllabus
+            </Link>
+          </>
+        )}
       </div>
     </article>
   );

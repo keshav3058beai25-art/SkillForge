@@ -53,7 +53,7 @@ function Footer() {
             <br />
             Course: Frontend Web Development
             <br />
-            Component: Project Evaluation-I (30 Marks)
+            Component: Project Evaluation-II
           </p>
         </div>
       </div>

@@ -66,6 +66,8 @@
 .nav-link.active {
   color: var(--primary-color, #4f46e5);
   background-color: var(--primary-light, #eef2ff);
+  box-shadow: inset 0 -2px 0 var(--primary-color, #4f46e5);
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0;
 }
 
 /* Mobile Hamburger Button */

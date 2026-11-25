@@ -4,7 +4,7 @@ import './Navbar.css';
 
 /**
  * Navbar Component
- * 
+ *
  * Concepts Demonstrated:
  * - Semantic HTML (<header>, <nav>)
  * - Functional Component
@@ -52,6 +52,14 @@ function Navbar() {
           </NavLink>
 
           <NavLink
+            to="/dashboard"
+            className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            onClick={handleLinkClick}
+          >
+            📊 Dashboard
+          </NavLink>
+
+          <NavLink
             to="/courses"
             className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
             onClick={handleLinkClick}
@@ -64,7 +72,7 @@ function Navbar() {
             className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
             onClick={handleLinkClick}
           >
-            🎯 MCQs & Quizzes
+            🎯 MCQs
           </NavLink>
 
           <NavLink
@@ -72,7 +80,7 @@ function Navbar() {
             className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
             onClick={handleLinkClick}
           >
-            📊 Progress
+            📈 Progress
           </NavLink>
 
           <NavLink
@@ -81,6 +89,22 @@ function Navbar() {
             onClick={handleLinkClick}
           >
             📝 Notes
+          </NavLink>
+
+          <NavLink
+            to="/portfolio"
+            className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            onClick={handleLinkClick}
+          >
+            👤 Portfolio
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            onClick={handleLinkClick}
+          >
+            ℹ️ About
           </NavLink>
         </nav>
       </div>

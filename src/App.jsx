@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './styles/index.css';
 import './styles/App.css';
@@ -14,6 +14,9 @@ import CourseDetails from './pages/CourseDetails';
 import Progress from './pages/Progress';
 import Notes from './pages/Notes';
 import QuizPage from './pages/QuizPage';
+import Dashboard from './pages/Dashboard';
+import About from './pages/About';
+import Portfolio from './pages/Portfolio';
 import NotFound from './pages/NotFound';
 
 /**
@@ -33,93 +36,23 @@ function ScrollToTop() {
 
 /**
  * Main App Component
- * 
+ *
  * Concepts Demonstrated:
- * 1. React Router Single Page Application (SPA) routing with <Routes> & <Route>
- * 2. Lifting State Up: Global progress tracking state shared across Home, Courses, CourseDetails, Quiz & Progress
- * 3. useState Hook: Storing the array of completed lesson IDs and quiz scores
- * 4. useEffect Hook & localStorage: Persisting user progress across browser reloads
- * 5. JSON.parse & JSON.stringify for data serialization
- * 6. Component Composition: Wrapping dynamic pages inside consistent Navbar and Footer
+ * 1. React Router SPA routing with <Routes> & <Route>
+ * 2. All global state is managed via Context API (AppContext)
+ *    - No props are drilled from App to pages
+ *    - Each page calls useApp() to read/write shared state
+ * 3. Component Composition: Wrapping dynamic pages inside consistent Navbar and Footer
+ * 4. Dynamic route parameters (:id) for CourseDetails and Quiz pages
+ * 5. Catch-all 404 route for invalid URLs
+ *
+ * Why no state here?
+ * - Previously, App.jsx had its own completedLessons and quizScores state AND
+ *   AppContext had the same state separately. This caused data conflicts.
+ * - Now ALL shared state lives in AppContext (src/context/AppContext.jsx).
+ * - Pages use the useApp() hook to access context directly.
  */
 function App() {
-  // 1. Initialize completedLessons state from browser's localStorage (or default starter lessons)
-  const [completedLessons, setCompletedLessons] = useState(() => {
-    const savedLessons = localStorage.getItem('skillforge_completed_lessons');
-    if (savedLessons) {
-      try {
-        return JSON.parse(savedLessons);
-      } catch (error) {
-        console.error('Error parsing completed lessons from localStorage:', error);
-        return [101, 102, 201];
-      }
-    }
-    // Default initial demo lessons (Modern JS 101, 102 and React 201 completed)
-    return [101, 102, 201];
-  });
-
-  // 2. Initialize quizScores state from browser's localStorage
-  const [quizScores, setQuizScores] = useState(() => {
-    const savedScores = localStorage.getItem('skillforge_quiz_scores');
-    if (savedScores) {
-      try {
-        return JSON.parse(savedScores);
-      } catch (error) {
-        console.error('Error parsing quiz scores from localStorage:', error);
-        return {};
-      }
-    }
-    return {};
-  });
-
-  // 3. Save completedLessons to localStorage whenever state updates
-  useEffect(() => {
-    localStorage.setItem(
-      'skillforge_completed_lessons',
-      JSON.stringify(completedLessons)
-    );
-  }, [completedLessons]);
-
-  // Handler to toggle completion status of a lesson (Add if not completed, Remove if already completed)
-  const handleToggleLesson = (lessonId) => {
-    if (completedLessons.includes(lessonId)) {
-      // Remove lesson ID from array using filter()
-      setCompletedLessons(completedLessons.filter((id) => id !== lessonId));
-    } else {
-      // Add lesson ID to array using spread operator [...]
-      setCompletedLessons([...completedLessons, lessonId]);
-    }
-  };
-
-  // Handler for when a quiz is completed
-  const handleQuizComplete = (updatedScores) => {
-    setQuizScores(updatedScores);
-  };
-
-  // Handler to mark all lessons of a course completed when the 7 MCQs are passed
-  const handleCompleteCourseLessons = (courseId) => {
-    const numericId = Number(courseId);
-    const course = coursesData.find((c) => c.id === numericId);
-    if (!course) return;
-
-    const courseLessonIds = course.lessons.map((l) => l.id);
-    setCompletedLessons((prev) => {
-      const updated = Array.from(new Set([...prev, ...courseLessonIds]));
-      localStorage.setItem('skillforge_completed_lessons', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  // Handler to reset all progress with confirmation dialog
-  const handleResetProgress = () => {
-    const isConfirmed = window.confirm('Are you sure you want to reset all completed lessons and quiz scores?');
-    if (isConfirmed) {
-      setCompletedLessons([]);
-      setQuizScores({});
-      localStorage.removeItem('skillforge_quiz_scores');
-    }
-  };
-
   return (
     <Router>
       <ScrollToTop />
@@ -131,65 +64,34 @@ function App() {
         <main className="main-content">
           <Routes>
             {/* 1. Home Page */}
-            <Route
-              path="/"
-              element={<Home completedLessons={completedLessons} />}
-            />
+            <Route path="/" element={<Home />} />
 
-            {/* 2. Courses Catalog */}
-            <Route
-              path="/courses"
-              element={<Courses completedLessons={completedLessons} />}
-            />
+            {/* 2. Dashboard (Mini-Project: Learning Dashboard) */}
+            <Route path="/dashboard" element={<Dashboard />} />
 
-            {/* 3. Dynamic Course Details (uses :id route parameter) */}
-            <Route
-              path="/courses/:id"
-              element={
-                <CourseDetails
-                  completedLessons={completedLessons}
-                  onToggleLesson={handleToggleLesson}
-                  onCompleteCourseLessons={handleCompleteCourseLessons}
-                />
-              }
-            />
+            {/* 3. Courses Catalog (with async loading) */}
+            <Route path="/courses" element={<Courses />} />
 
-            {/* 4. Interactive Subject Quizzes & MCQs (7 Questions per track) */}
-            <Route
-              path="/quiz"
-              element={
-                <QuizPage
-                  onQuizComplete={handleQuizComplete}
-                  onCompleteCourseLessons={handleCompleteCourseLessons}
-                />
-              }
-            />
-            <Route
-              path="/quiz/:id"
-              element={
-                <QuizPage
-                  onQuizComplete={handleQuizComplete}
-                  onCompleteCourseLessons={handleCompleteCourseLessons}
-                />
-              }
-            />
+            {/* 4. Dynamic Course Details (uses :id route parameter) */}
+            <Route path="/courses/:id" element={<CourseDetails />} />
 
-            {/* 5. Progress Dashboard */}
-            <Route
-              path="/progress"
-              element={
-                <Progress
-                  completedLessons={completedLessons}
-                  quizScores={quizScores}
-                  onResetProgress={handleResetProgress}
-                />
-              }
-            />
+            {/* 5. Interactive Subject Quizzes & MCQs */}
+            <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/quiz/:id" element={<QuizPage />} />
 
-            {/* 6. Study Notes Notebook */}
+            {/* 6. Progress Analytics */}
+            <Route path="/progress" element={<Progress />} />
+
+            {/* 7. Study Notes Notebook */}
             <Route path="/notes" element={<Notes />} />
 
-            {/* 7. 404 Catch-All Page */}
+            {/* 8. About Page */}
+            <Route path="/about" element={<About />} />
+
+            {/* 9. Portfolio Page (Mini-Project: Portfolio Site) */}
+            <Route path="/portfolio" element={<Portfolio />} />
+
+            {/* 10. 404 Catch-All Page */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

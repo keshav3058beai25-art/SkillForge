@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NotFound Page Styles (CHO Evaluation 1 Level)
+   NotFound Page Styles (Enhanced for Evaluation 2)
    ========================================================================== */
 
 .notfound-page {
@@ -67,3 +67,43 @@
   background-color: #4338ca;
   transform: translateY(-1px);
 }
+
+/* Suggested Navigation Links */
+.notfound-suggestions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+}
+
+.notfound-suggest-label {
+  font-size: 0.85rem;
+  color: var(--text-muted, #94a3b8);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.notfound-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.notfound-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-color, #4f46e5);
+  background-color: var(--primary-light, #eef2ff);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full, 9999px);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.notfound-link:hover {
+  background-color: #e0e7ff;
+}
+
